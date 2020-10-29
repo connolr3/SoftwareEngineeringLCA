@@ -1,3 +1,4 @@
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
@@ -8,25 +9,35 @@ import org.junit.jupiter.api.Test;
 
 class lcaTest {
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void testLCABasicCase() {
+		lca tree = new lca(); 
+		tree.root = new Node(1); 
+		tree.root.left = new Node(2); 
+		tree.root.right = new Node(3); 
+		tree.root.left.left = new Node(4); 
+		tree.root.left.right = new Node(5); 
+		tree.root.right.left = new Node(6); 
+		tree.root.right.right = new Node(7); 
+		assertEquals(2,tree.findLCA(4,5),"LCA of 4,5");
+		assertEquals(1,tree.findLCA(4,6),"LCA of 4,6");
+		assertEquals(1,tree.findLCA(3,4),"LCA of 3,4");
+		assertEquals(2,tree.findLCA(2,4),"LCA of 2,4"); 
+	}
+	@Test
+	void testLCANullNodes() {
+		lca tree = new lca(); 
+		assertEquals(-1,tree.findLCA(4,5),"LCA of nodes not created");
+		tree.root = new Node(1); 
+		assertEquals(-1,tree.findLCA(1,5),"LCA with one node not created");
+	}
+	@Test
+	void testLCASameNodes() {
+		lca tree = new lca(); 
+		tree.root = new Node(1); 
+		assertEquals(1,tree.findLCA(1,1),"LCA of root and root");
+		tree.root.left = new Node(2); 
+		assertEquals(2,tree.findLCA(2,2),"LCA of same node");
 	}
 
 }
