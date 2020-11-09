@@ -50,6 +50,7 @@ public class DAG{
 
 	//adds directed edge from v to w
 	public void addEdge(int v, int w){
+		//first check that both vertices are valid
 		checkVertex(v);
 		checkVertex(w);
 		adj[v][w]=1;//edge now exists 
@@ -60,6 +61,7 @@ public class DAG{
 
 	//Removes an edge from v to w
 	public void removeEdge(int v, int w){
+		//first check that both vertices are valid
 		checkVertex(v);
 		checkVertex(w);
 		adj[v][w]=0;//edge no longer exists
@@ -122,11 +124,11 @@ public int findLCA(int v, int w){
 		return getLCA(v,w);
 	}
 	else{
-		throw new IllegalArgumentException("This graph is not an acyclic therefore no LCA exists.");
+		throw new IllegalArgumentException("This graph is not an acyclic cannot find LCA.");
 	}
 }
 
-//helper function for LCA
+//private helper function for LCA
 private int getLCA(int v, int w){
 	int[] vArray = new int[E];
 	int[] wArray = new int[E];
