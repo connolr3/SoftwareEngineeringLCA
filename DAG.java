@@ -42,16 +42,23 @@ public class DAG{
 		return E;
 	}
 
-	//throws illegal exception if vertex put in less than zero / doesn't exist
+	/*throws illegal exception if vertex put in less than zero / doesn't exist
 	private void checkVertex(int v){
 		if((v<0)||(v>=V))
 			throw new IllegalArgumentException("Vertexe doesn't exist");
+	}*/
+	//returns false if vertex doesn't exist
+	private boolean checkVertex(int v){
+		if((v<0)||(v>=V))
+			return false;
+		return true;
 	}
-
+	
+	
 	//adds directed edge from v to w
 	public void addEdge(int w, int v){
-		checkVertex(v);
-		checkVertex(w);
+		if (!checkVertex(v)||!checkVertex(w))
+			throw new IllegalArgumentException("Vertex doesn't exist");
 		adj[v][w]=1;//edge now exists 
 		indegree[w]++;//w has an extra edge leading to it
 		outdegree[v]++;//v has an extra node leading out of it
@@ -60,8 +67,8 @@ public class DAG{
 
 	//Removes an edge from v to w
 	public void removeEdge(int v, int w){
-		checkVertex(v);
-		checkVertex(w);
+		if (!checkVertex(v)||!checkVertex(w))
+			throw new IllegalArgumentException("Vertex doesn't exist");
 		adj[v][w]=0;//edge no longer exists
 		indegree[w]--;//w has one less edge leading to it
 		outdegree[v]--;//v has one less node leading out of it
@@ -70,19 +77,22 @@ public class DAG{
 
 	//number of edges out of vertex v
 	public int outdegree(int v){
-		checkVertex(v);
+		if (!checkVertex(v))
+			throw new IllegalArgumentException("Vertex doesn't exist");
 		return outdegree[v];
 	}
 
 	//number of edges into vertex v
 	public int indegree(int v){
-		checkVertex(v);
+		if (!checkVertex(v))
+			throw new IllegalArgumentException("Vertex doesn't exist");
 		return indegree[v];
 	}
 
 	//returns an array of the vertices adjacent from vertex v
 	public int[] adj(int v){
-		checkVertex(v);
+		if (!checkVertex(v))
+			throw new IllegalArgumentException("Vertex doesn't exist");
 		int[] temp = new int[outdegree[v]];
 		int count =0;
 		for(int i=0;i<V;i++){
@@ -119,15 +129,12 @@ public class DAG{
 
 //Find the LCA in a DAG
 public int findLCA(int v, int w){
-	checkVertex(v);
-	checkVertex(w);
+	if (!checkVertex(v)||!checkVertex(w))
+		return -1;
 	if(E>0 && (cycle()==false)){
 		return getLCA(v,w);
 	}
 	else{
-	//	System.out.println(E);
-		  //System.out.println(V);
-		//System.out.print(not_acyclic());
 		throw new IllegalArgumentException("This graph is not acyclic therefore no LCA exists.");
 	}
 }
