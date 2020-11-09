@@ -116,7 +116,6 @@ public class DAG{
 			for(int j = 0; j<V;j++){
 				for(int k=0;k<V;k++){
 					if(visited[k]==j && adj[i][j]==1){
-						System.out.println("gone  into if to set as true");
 						acyclic=true;
 						return acyclic;
 					}
@@ -135,7 +134,7 @@ public int findLCA(int v, int w){
 		return getLCA(v,w);
 	}
 	else{
-		throw new IllegalArgumentException("This graph is not acyclic therefore no LCA exists.");
+		return -1;
 	}
 }
 
