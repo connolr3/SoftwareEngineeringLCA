@@ -40,10 +40,9 @@ class lcaTest {
 		assertEquals(2,tree.findLCA(2,2),"LCA of same node");
 	}
 	@Test
-	void testLCAwithDAG() {
+	void testBasicLCAwithDAG() {
 		//The tree being created can be visualised as;
 		//https://algorithms.tutorialhorizon.com/topological-sort/
-		//DAG dagtree =new DAG(3);
 		DAG dagtree =new DAG(8);
 		dagtree.addEdge(7, 5);
 		dagtree.addEdge(7, 6);
@@ -55,10 +54,34 @@ class lcaTest {
 		dagtree.addEdge(3, 1);
 		dagtree.addEdge(1, 0);
 		lca tree = new lca(); 
-		assertEquals(7,dagtree.findLCA(5,6),"LCA of 7 and 7");
+		assertEquals(7,dagtree.findLCA(5,6),"LCA of 5 and 6");
 		assertEquals(7,dagtree.findLCA(2,3),"LCA of 2 and 3");
-		assertEquals(6,dagtree.findLCA(4,0),"LCA of 5 and 0");
-		
+		assertEquals(6,dagtree.findLCA(4,0),"LCA of 4 and 0");		
+	}
+
+	@Test
+	void testLCANullNodesDAG() {
+		DAG tree = new DAG(0); 
+		assertEquals(-1,tree.findLCA(4,5),"LCA both nodes not created");
+		DAG tree2 = new DAG(1); 
+		assertEquals(-1,tree.findLCA(0,5),"LCA with one node not created");
+	}
+	@Test
+	void testLCASameNodesDAG() {
+		DAG dagtree =new DAG(8);
+		dagtree.addEdge(7, 5);
+		dagtree.addEdge(7, 6);
+		dagtree.addEdge(5, 4);
+		dagtree.addEdge(6, 4);
+		dagtree.addEdge(5, 2);
+		dagtree.addEdge(2, 1);
+		dagtree.addEdge(6, 3);
+		dagtree.addEdge(3, 1);
+		dagtree.addEdge(1, 0);
+		lca tree = new lca(); 
+		assertEquals(5,dagtree.findLCA(5,5),"LCA of 5 and 5");
+		assertEquals(7,dagtree.findLCA(7,7),"LCA of root and root");
+		assertEquals(0,dagtree.findLCA(0,0),"LCA of 0 and 0");	
 	}
 
 }
