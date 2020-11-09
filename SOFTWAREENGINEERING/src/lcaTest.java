@@ -9,6 +9,15 @@ import org.junit.jupiter.api.Test;
 
 class lcaTest {
 
+	//The first half test binary tree implementation, the second half test DAG 
+	@Test
+	public void testConstructor() {
+		lca tree = new lca(); 
+		assertEquals(null ,tree.root,"No node tree - root should be null");
+		tree.root = new Node(1); 
+		assertEquals(null ,tree.root.left,"One node tree - root.left should be null");
+		assertEquals(null ,tree.root.right,"One node tree - root.right should be null");
+	}
 	@Test
 	void testLCABasicCase() {
 		lca tree = new lca(); 
@@ -39,6 +48,15 @@ class lcaTest {
 		tree.root.left = new Node(2); 
 		assertEquals(2,tree.findLCA(2,2),"LCA of same node");
 	}
+	
+	//DAG TESTS
+	@Test
+	public void testConstructorDAG() {
+		DAG dagtree =new DAG(8);
+		DAG dagtree2 =new DAG(0);
+	}
+	
+	
 	@Test
 	void testBasicLCAwithDAG() {
 		//The tree being created can be visualised as;
@@ -64,7 +82,7 @@ class lcaTest {
 		DAG tree = new DAG(0); 
 		assertEquals(-1,tree.findLCA(4,5),"LCA both nodes not created");
 		DAG tree2 = new DAG(1); 
-		assertEquals(-1,tree.findLCA(0,5),"LCA with one node not created");
+		assertEquals(-1,tree2.findLCA(0,5),"LCA with one node not created");
 	}
 	@Test
 	void testLCASameNodesDAG() {
@@ -78,10 +96,21 @@ class lcaTest {
 		dagtree.addEdge(6, 3);
 		dagtree.addEdge(3, 1);
 		dagtree.addEdge(1, 0);
-		lca tree = new lca(); 
 		assertEquals(5,dagtree.findLCA(5,5),"LCA of 5 and 5");
 		assertEquals(7,dagtree.findLCA(7,7),"LCA of root and root");
 		assertEquals(0,dagtree.findLCA(0,0),"LCA of 0 and 0");	
+	}
+	@Test
+	void testLCAgraphwithcyclesDAG() {
+		DAG dagtree =new DAG(5);
+		dagtree.addEdge(0, 1);
+		dagtree.addEdge(1, 2);
+		dagtree.addEdge(2, 3);
+		dagtree.addEdge(3, 4);
+		dagtree.addEdge(4, 0); 
+		assertEquals(-1,dagtree.findLCA(0,0),"LCA of cyclic graph");
+		assertEquals(-1,dagtree.findLCA(3,2),"LCA of cyclic graph");
+		assertEquals(-1,dagtree.findLCA(2,2),"LCA of cyclic graph");
 	}
 
 }
