@@ -49,8 +49,7 @@ public class DAG{
 	}
 
 	//adds directed edge from v to w
-	public void addEdge(int v, int w){
-		//first check that both vertices are valid
+	public void addEdge(int w, int v){
 		checkVertex(v);
 		checkVertex(w);
 		adj[v][w]=1;//edge now exists 
@@ -61,7 +60,6 @@ public class DAG{
 
 	//Removes an edge from v to w
 	public void removeEdge(int v, int w){
-		//first check that both vertices are valid
 		checkVertex(v);
 		checkVertex(w);
 		adj[v][w]=0;//edge no longer exists
@@ -95,16 +93,20 @@ public class DAG{
 		}
 		return temp;
 	}
-
-	//true if graph is acyclic, else false
-	public boolean acyclic(){
+	
+	//true if graph is has a cycle, else false if acyclic
+	public boolean cycle(){
 		boolean acyclic=false;
 		int count = 0;
+		for (int i = 0;i<V;i++) {//reset the visited to 0 in case it acyclic is run multiple times
+			visited[i]=0;
+		}
 		for(int i =0;i<V;i++){
 			visited[count]=i;
 			for(int j = 0; j<V;j++){
 				for(int k=0;k<V;k++){
 					if(visited[k]==j && adj[i][j]==1){
+						System.out.println("gone  into if to set as true");
 						acyclic=true;
 						return acyclic;
 					}
@@ -119,16 +121,18 @@ public class DAG{
 public int findLCA(int v, int w){
 	checkVertex(v);
 	checkVertex(w);
-	acyclic();
-	if(E>0 && !acyclic()){
+	if(E>0 && (cycle()==false)){
 		return getLCA(v,w);
 	}
 	else{
-		throw new IllegalArgumentException("This graph is not an acyclic cannot find LCA.");
+	//	System.out.println(E);
+		  //System.out.println(V);
+		//System.out.print(not_acyclic());
+		throw new IllegalArgumentException("This graph is not acyclic therefore no LCA exists.");
 	}
 }
 
-//private helper function for LCA
+//helper function for LCA
 private int getLCA(int v, int w){
 	int[] vArray = new int[E];
 	int[] wArray = new int[E];
